@@ -1,11 +1,14 @@
 <template>
-  <div>Hello world</div>
+  <div>
+    <catalog-wrapper />
+  </div>
 </template>
 
 <script>
+import CatalogWrapper from "./components/CatalogWrapper.vue";
 export default {
   name: "App",
-  components: {},
+  components: { CatalogWrapper },
 };
 </script>
 
