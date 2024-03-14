@@ -1,6 +1,5 @@
 <template>
   <div class="catalog-wrapper">
-    In wrapper
     <catalog-main />
     <catalog-cart />
   </div>
