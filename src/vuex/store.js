@@ -27,6 +27,9 @@ const store = createStore({
         state.cart.push(product);
       }
     },
+    REMOVE_FROM_CART: (state, index) => {
+      state.cart.splice(index, 1);
+    },
   },
   actions: {
     GET_PRODUCTS_FROM_API({ commit }) {
