@@ -17,7 +17,8 @@ export default {
 
 <style lang="scss">
 .catalog-wrapper {
-  width: 900px;
+  max-width: 900px;
   margin: 0 auto;
+  height: inherit;
 }
 </style>

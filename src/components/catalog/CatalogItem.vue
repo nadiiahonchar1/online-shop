@@ -3,13 +3,15 @@
     <div class="catalog-item__image-wrap">
       <img
         class="catalog-item__image"
-        :src="require('../assets/images/' + product_data.image)"
+        :src="require('../../assets/images/' + product_data.image)"
         alt="img"
       />
     </div>
     <p class="catalog-item__name">{{ product_data.name }}</p>
     <p class="catalog-item__price">Price: {{ product_data.price }} UAH</p>
-    <button class="catalog-item__btn" @click="addToCart">Add to cart</button>
+    <button class="catalog-item__btn btn" @click="addToCart">
+      Add to cart
+    </button>
   </div>
 </template>
 

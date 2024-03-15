@@ -1,5 +1,5 @@
-import CatalogCart from "@/components/CatalogCart.vue";
-import CatalogMain from "@/components/CatalogMain.vue";
+import CatalogCart from "@/components/cart/CatalogCart.vue";
+import CatalogMain from "@/components/catalog/CatalogMain.vue";
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
