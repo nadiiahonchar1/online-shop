@@ -5,11 +5,14 @@
     </router-link>
     <h1>Catalog</h1>
     <catalog-notification :messages="messages" />
-    <catalog-select
-      :options="categories"
-      @select="sortByCategories"
-      :selected="selected"
-    />
+    <div class="catalog__filters">
+      <catalog-select
+        :options="categories"
+        @select="sortByCategories"
+        :selected="selected"
+      />
+      <catalog-search />
+    </div>
     <div class="catalog__list">
       <catalog-item
         v-for="product in filteredProducts"
@@ -24,6 +27,7 @@
 <script>
 import CatalogItem from "./CatalogItem.vue";
 import CatalogSelect from "./CatalogSelect.vue";
+import CatalogSearch from "./CatalogSearch.vue";
 import CatalogNotification from "../notifications/CatalogNotification.vue";
 
 import { mapActions, mapGetters } from "vuex";
@@ -33,6 +37,7 @@ export default {
     CatalogItem,
     CatalogSelect,
     CatalogNotification,
+    CatalogSearch,
   },
   name: "CatalogMain",
   data() {
@@ -57,7 +62,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["PRODUCTS", "CART"]),
+    ...mapGetters(["PRODUCTS", "CART", "SEARCH_QUERY"]),
     filteredProducts() {
       if (this.sortedProducts.length) {
         return this.sortedProducts;
@@ -87,9 +92,26 @@ export default {
       });
       this.selected = category.name;
     },
+    filteredByName(value) {
+      this.sortedProducts = [...this.PRODUCTS];
+      this.selected = "All";
+      if (value) {
+        this.sortedProducts = this.sortedProducts.filter(function (item) {
+          return item.name.toLowerCase().includes(value.toLowerCase());
+        });
+      } else {
+        this.sortedProducts = this.PRODUCTS;
+      }
+    },
+  },
+  watch: {
+    SEARCH_QUERY() {
+      this.filteredByName(this.SEARCH_QUERY);
+    },
   },
   mounted() {
     this.GET_PRODUCTS_FROM_API();
+    this.filteredByName(this.SEARCH_QUERY);
   },
 };
 </script>
@@ -114,6 +136,13 @@ export default {
     padding: $padding * 2;
     border: 1px solid #ddd;
     cursor: pointer;
+  }
+  &__filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 900px;
   }
 }
 </style>
