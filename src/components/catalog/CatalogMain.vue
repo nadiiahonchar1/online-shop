@@ -4,6 +4,7 @@
       <div class="catalog__link">Cart: {{ CART.length }}</div>
     </router-link>
     <h1>Catalog</h1>
+    <catalog-notification :messages="messages" />
     <catalog-select
       :options="categories"
       @select="sortByCategories"
@@ -23,10 +24,16 @@
 <script>
 import CatalogItem from "./CatalogItem.vue";
 import CatalogSelect from "./CatalogSelect.vue";
+import CatalogNotification from "../notifications/CatalogNotification.vue";
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: { CatalogItem, CatalogSelect },
+  components: {
+    CatalogItem,
+    CatalogSelect,
+    CatalogNotification,
+  },
   name: "CatalogMain",
   data() {
     return {
@@ -46,6 +53,7 @@ export default {
       ],
       selected: "All",
       sortedProducts: [],
+      messages: [],
     };
   },
   computed: {
@@ -61,7 +69,13 @@ export default {
   methods: {
     ...mapActions(["GET_PRODUCTS_FROM_API", "ADD_TO_CART"]),
     addToCart(item) {
-      this.ADD_TO_CART(item);
+      this.ADD_TO_CART(item).then(() => {
+        let timeStamp = Date.now().toLocaleString();
+        this.messages.unshift({
+          name: "The product has been added to the cart",
+          id: timeStamp,
+        });
+      });
     },
     sortByCategories(category) {
       this.sortedProducts = [];
